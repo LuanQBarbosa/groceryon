@@ -7,13 +7,9 @@ import util.UserPasswordException;
 public class UserValidator {
     public UserValidator(){}
 
-    public void ValidateUser(User user) throws Exception {
-        try {
-            this.LoginValidation(user.getLogin());
-            this.PasswordValidation(user.getPassword());
-        } catch (Exception e) {
-            throw e;
-        }
+    public void validateUser(User user) throws UserLoginException, UserPasswordException {
+        this.LoginValidation(user.getLogin());
+        this.PasswordValidation(user.getPassword());
     }
 
     public void LoginValidation(String login) throws UserLoginException {

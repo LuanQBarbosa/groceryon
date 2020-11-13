@@ -2,6 +2,8 @@ package business.control;
 
 import business.model.User;
 import infra.UserDao;
+import util.UserLoginException;
+import util.UserPasswordException;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -14,18 +16,13 @@ public class UserControl {
     public UserControl(UserDao userDao, UserValidator userValidator) {
         this.userDao = userDao;
         this.userValidator = userValidator;
-        users = new TreeMap<String, User>();
+        users = userDao.loadUsers();
     }
 
-    public void addUser(String login, String password) throws Exception {  
-        try {
-            User user = new User(login, password);
-            this.userValidator.ValidateUser(user);
-            users.put(login, user);
-        } catch (Exception e) {
-            throw e;
-        }
-        
+    public void addUser(String login, String password) throws UserLoginException, UserPasswordException {
+        User user = new User(login, password);
+        this.userValidator.validateUser(user);
+        users.put(login, user);
     }
 
     public Map<String, User> listAll() {
