@@ -6,7 +6,6 @@ import util.UserLoginException;
 import util.UserPasswordException;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 public class UserControl {
     private UserDao userDao;
@@ -23,6 +22,7 @@ public class UserControl {
         User user = new User(login, password);
         this.userValidator.validateUser(user);
         users.put(login, user);
+        userDao.saveUsers(users);
     }
 
     public Map<String, User> listAll() {
