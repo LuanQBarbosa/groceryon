@@ -1,9 +1,7 @@
 import business.control.UserControl;
 import business.control.UserValidator;
-import business.model.User;
 import infra.UserDao;
 import infra.UserFileDao;
-import util.UserLoginException;
 import view.UserForm;
 import view.UserFormConsole;
 
