@@ -8,15 +8,24 @@ import java.util.TreeMap;
 
 public class UserControl {
     private UserDao userDao;
+    private UserValidator userValidator;
     private Map<String, User> users;
 
-    public UserControl(UserDao userDao) {
+    public UserControl(UserDao userDao, UserValidator userValidator) {
         this.userDao = userDao;
+        this.userValidator = userValidator;
         users = new TreeMap<String, User>();
     }
 
-    public void addUser(String login, String password) {
-        // TODO
+    public void addUser(String login, String password) throws Exception {  
+        try {
+            User user = new User(login, password);
+            this.userValidator.ValidateUser(user);
+            users.put(login, user);
+        } catch (Exception e) {
+            throw e;
+        }
+        
     }
 
     public Map<String, User> listAll() {
