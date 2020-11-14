@@ -26,13 +26,11 @@ public class UserControl {
     }
 
     public Map<String, User> listAll() {
-        // TODO
-        return null;
+        return users;
     }
 
     public User getUser(String login) {
-        // TODO
-        return null;
+        return users.get(login);
     }
 
     /**
@@ -40,7 +38,6 @@ public class UserControl {
      * @return true se existe usuario com o login, false caso contrario
      */
     public boolean deleteUser(String login) {
-        // TODO
-        return false;
+        return users.containsKey(login);
     }
 }
