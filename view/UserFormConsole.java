@@ -67,9 +67,9 @@ public class UserFormConsole implements UserForm {
 
     public void deleteUser() {
         System.out.print("Login: ");
-        boolean check = controller.deleteUser(this.scanner.nextLine());
+        User user = controller.deleteUser(this.scanner.nextLine());
 
-        if (check) {
+        if (user != null) {
             System.out.println("Usuário deletado com sucesso.");
             return;
         }
