@@ -6,6 +6,8 @@ import util.UserLoginException;
 import util.UserPasswordException;
 
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserControl {
     private UserDao userDao;
@@ -25,8 +27,9 @@ public class UserControl {
         userDao.saveUsers(users);
     }
 
-    public Map<String, User> listAll() {
-        return users;
+    public List<User> listAll() {
+        List<User> users_list = new ArrayList(users.values());
+        return users_list;
     }
 
     public User getUser(String login) {
