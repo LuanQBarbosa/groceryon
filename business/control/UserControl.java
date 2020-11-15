@@ -33,11 +33,7 @@ public class UserControl {
         return users.get(login);
     }
 
-    /**
-     * @param login do usuario
-     * @return true se existe usuario com o login, false caso contrario
-     */
-    public boolean deleteUser(String login) {
-        return users.containsKey(login);
+    public void deleteUser(String login) {
+        users.remove(login);
     }
 }
