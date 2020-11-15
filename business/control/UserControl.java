@@ -6,7 +6,6 @@ import util.UserLoginException;
 import util.UserPasswordException;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 public class UserControl {
     private UserDao userDao;
@@ -23,24 +22,18 @@ public class UserControl {
         User user = new User(login, password);
         this.userValidator.validateUser(user);
         users.put(login, user);
+        userDao.saveUsers(users);
     }
 
     public Map<String, User> listAll() {
-        // TODO
-        return null;
+        return users;
     }
 
     public User getUser(String login) {
-        // TODO
-        return null;
+        return users.get(login);
     }
 
-    /**
-     * @param login do usuario
-     * @return true se existe usuario com o login, false caso contrario
-     */
-    public boolean deleteUser(String login) {
-        // TODO
-        return false;
+    public User deleteUser(String login) {
+        return users.remove(login);
     }
 }
