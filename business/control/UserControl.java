@@ -33,7 +33,7 @@ public class UserControl {
         return users.get(login);
     }
 
-    public void deleteUser(String login) {
-        users.remove(login);
+    public User deleteUser(String login) {
+        return users.remove(login);
     }
 }
