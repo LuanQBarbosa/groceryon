@@ -3,7 +3,7 @@ package view;
 import business.control.UserControl;
 
 public class UserFormConsole implements UserForm {
-    private UserControl controller;
+    private final UserControl controller;
 
     public UserFormConsole(UserControl controller) {
         this.controller = controller;

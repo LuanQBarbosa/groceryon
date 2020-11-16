@@ -13,7 +13,7 @@ import java.util.TreeMap;
 
 public class UserFileDao implements UserDao {
 
-    private String fileName;
+    private final String fileName;
 
     public UserFileDao(String fileName) {
         this.fileName = fileName;

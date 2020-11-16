@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserControl {
-    private UserDao userDao;
-    private UserValidator userValidator;
-    private Map<String, User> users;
+    private final UserDao userDao;
+    private final UserValidator userValidator;
+    private final Map<String, User> users;
 
     public UserControl(UserDao userDao, UserValidator userValidator) {
         this.userDao = userDao;
@@ -28,8 +28,7 @@ public class UserControl {
     }
 
     public List<User> listAll() {
-        List<User> users_list = new ArrayList(users.values());
-        return users_list;
+        return new ArrayList<User>(users.values());
     }
 
     public User getUser(String login) {
