@@ -1,5 +1,6 @@
 package view;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -14,12 +15,11 @@ public class UserFormConsole implements UserForm {
 
     public UserFormConsole(UserControl controller) {
         this.controller = controller;
-        this.scanner = new Scanner(System.in);
     }
 
     @Override
     public void showUserForm() {
-        Scanner scan = new Scanner(System.in);
+        this.scanner = new Scanner(System.in);
         int option;
 
         do {
@@ -31,24 +31,22 @@ public class UserFormConsole implements UserForm {
             System.out.println("4 - Deletar usuário");
             System.out.println("5 - Encerrar operações");
             System.out.println();
-
-            System.out.print("Digite a opção desejada: ");
-            option = scan.nextInt();
-            callOption(option);
             
+            System.out.print("Digite a opção desejada: ");
+            
+            option = Integer.parseInt(this.scanner.nextLine());
+            callOption(option);
         } while (option != 5);
 
-        scan.close();
+        this.scanner.close();
     }
 
     public void userAdd() {
-        Scanner scan = new Scanner(System.in);
-
         System.out.print("Login: ");
-        String login = scan.nextLine();
+        String login = this.scanner.nextLine();
 
         System.out.print("Senha (numérica, entre 8 e 12 caracteres): ");
-        String password = scan.nextLine();
+        String password = this.scanner.nextLine();
 
         try {
             this.controller.addUser(login, password);
@@ -58,15 +56,21 @@ public class UserFormConsole implements UserForm {
             System.out.println("Senha inválida");
         }
 
-        scan.close();
+        System.out.println("\nUsuário cadastrado com sucesso!\n");
+        System.out.print("Pressione qualquer tecla para continuar! ");
+        this.scanner.nextLine();
     }
 
     public void listUsers() {
-        Map<String, User> users = controller.listAll();
+        List<User> users = controller.listAll();
 
+        System.out.println();
         for (Map.Entry<String, User> entry : users.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
+            System.out.println(entry.getKey());
         }
+
+        System.out.println("\nPressione qualquer tecla para continuar!");
+        this.scanner.nextLine();
     }
 
     public void getUser() {
