@@ -1,6 +1,7 @@
 package infra;
 
 import business.model.User;
+import util.InfraException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +21,7 @@ public class UserFileDao implements UserDao {
     }
 
     @Override
-    public Map<String, User> loadUsers() {
+    public Map<String, User> loadUsers() throws InfraException {
         Map<String, User> users = null;
 
         try {
@@ -33,14 +34,14 @@ public class UserFileDao implements UserDao {
             in.close();
             fileIn.close();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new InfraException("\n**User's file error**");
         }
 
         return users;
     }
 
     @Override
-    public void saveUsers(Map<String, User> users) {
+    public void saveUsers(Map<String, User> users) throws InfraException {
         try {
             FileOutputStream fileOut = new FileOutputStream(getFile());
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -48,7 +49,8 @@ public class UserFileDao implements UserDao {
             out.close();
             fileOut.close();
         } catch (IOException i) {
-            i.printStackTrace();
+            throw new InfraException("\n**User's file error**");
+
         }
     }
 

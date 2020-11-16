@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import business.control.UserControl;
 import business.model.User;
+import util.InfraException;
 import util.UserLoginException;
 import util.UserPasswordException;
 
@@ -59,9 +60,11 @@ public class UserFormConsole implements UserForm {
             System.out.println("\nUsuário cadastrado com sucesso!\n");
             
         } catch (UserLoginException e) {
-            System.out.println("\n**Login inválido**");
+            System.out.println(e.getMessage());
         } catch (UserPasswordException e) {
-            System.out.println("\n**Senha inválida**");
+            System.out.println(e.getMessage());
+        } catch (InfraException e) {
+            System.out.println(e.getMessage());
         }
 
         System.out.print("\nPressione enter para retornar ao menu principal! ");
@@ -97,7 +100,13 @@ public class UserFormConsole implements UserForm {
 
     public void deleteUser() {
         System.out.print("\nLogin: ");
-        User user = controller.deleteUser(this.scanner.nextLine());
+
+        User user = null;
+        try {
+            user = controller.deleteUser(this.scanner.nextLine());
+        } catch (InfraException e) {
+            System.out.println(e.getMessage());
+        }
 
         if (user != null) {
             System.out.println("\nUsuário " + user.getLogin() + " deletado com sucesso.");
