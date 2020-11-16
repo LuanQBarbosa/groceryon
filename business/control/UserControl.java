@@ -28,7 +28,7 @@ public class UserControl {
     }
 
     public List<User> listAll() {
-        return new ArrayList<User>(users.values());
+        return new ArrayList<>(users.values());
     }
 
     public User getUser(String login) {
@@ -37,7 +37,9 @@ public class UserControl {
 
     public User deleteUser(String login) {
         User user = users.remove(login);
-        userDao.saveUsers(users);
+        if (user != null) { // evita chamada pesada, se users nao foi modificado
+            userDao.saveUsers(users);
+        }
         return user;
     }
 }
