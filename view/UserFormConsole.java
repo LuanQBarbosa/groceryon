@@ -19,22 +19,36 @@ public class UserFormConsole implements UserForm {
 
     @Override
     public void showUserForm() {
-        System.out.println("1 - Adicionar usuário");
-        System.out.println("2 - Listar usuários");
-        System.out.println("3 - Buscar usuário");
-        System.out.println("4 - Deletar usuário");
-        System.out.println("5 - Encerrar operações");
-        System.out.println();
+        Scanner scan = new Scanner(System.in);
+        int option;
 
-        getOption();
+        do {
+            System.out.print("\033[H\033[2J");
+            System.out.flush();  
+            System.out.println("1 - Adicionar usuário");
+            System.out.println("2 - Listar usuários");
+            System.out.println("3 - Buscar usuário");
+            System.out.println("4 - Deletar usuário");
+            System.out.println("5 - Encerrar operações");
+            System.out.println();
+
+            System.out.print("Digite a opção desejada: ");
+            option = scan.nextInt();
+            callOption(option);
+            
+        } while (option != 5);
+
+        scan.close();
     }
 
     public void userAdd() {
-        System.out.println("Login: ");
-        String login = scanner.nextLine();
+        Scanner scan = new Scanner(System.in);
 
-        System.out.println("Senha: ");
-        String password = scanner.nextLine();
+        System.out.print("Login: ");
+        String login = scan.nextLine();
+
+        System.out.print("Senha (numérica, entre 8 e 12 caracteres): ");
+        String password = scan.nextLine();
 
         try {
             this.controller.addUser(login, password);
@@ -43,6 +57,8 @@ public class UserFormConsole implements UserForm {
         } catch (UserPasswordException e) {
             System.out.println("Senha inválida");
         }
+
+        scan.close();
     }
 
     public void listUsers() {
@@ -77,10 +93,7 @@ public class UserFormConsole implements UserForm {
         System.out.println("Não foi possível deletar o usuário.");
     }
 
-    public void getOption() {
-        System.out.print("Digite sua opção: ");
-        int opt = scanner.nextInt();
-
+    public void callOption(int opt) {
         switch (opt) {
             case 1:
                 userAdd();
