@@ -36,6 +36,8 @@ public class UserControl {
     }
 
     public User deleteUser(String login) {
-        return users.remove(login);
+        User user = users.remove(login);
+        userDao.saveUsers(users);
+        return user;
     }
 }
