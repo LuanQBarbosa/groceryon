@@ -13,20 +13,10 @@ import java.util.TreeMap;
 
 public class UserFileDao implements UserDao {
 
-    private String filename;
+    private String fileName;
 
-    public UserFileDao(String filename) {
-        this.filename = filename;
-
-        try {
-            File file = new File(filename);
-            if (file.createNewFile()) {
-                this.saveUsers(new TreeMap<String, User>());
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
+    public UserFileDao(String fileName) {
+        this.fileName = fileName;
     }
 
     @Override
@@ -34,15 +24,16 @@ public class UserFileDao implements UserDao {
         Map<String, User> users = null;
 
         try {
-            FileInputStream fileIn = new FileInputStream(filename);
+            File saveFile = getFile();
+            if(saveFile.length() == 0) // se o arquivo for vazio
+                return new TreeMap<String, User>();
+            FileInputStream fileIn = new FileInputStream(saveFile);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             users = (Map<String, User>) in.readObject();
             in.close();
             fileIn.close();
-        } catch (IOException i) {
-            i.printStackTrace();
-        } catch (ClassNotFoundException c) {
-            c.printStackTrace();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
         return users;
@@ -51,7 +42,7 @@ public class UserFileDao implements UserDao {
     @Override
     public void saveUsers(Map<String, User> users) {
         try {
-            FileOutputStream fileOut = new FileOutputStream(filename);
+            FileOutputStream fileOut = new FileOutputStream(getFile());
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(users);
             out.close();
@@ -59,5 +50,11 @@ public class UserFileDao implements UserDao {
         } catch (IOException i) {
             i.printStackTrace();
         }
+    }
+
+    private File getFile() throws IOException {
+        File file = new File(this.fileName);
+        file.createNewFile();
+        return file;
     }
 }
