@@ -6,11 +6,13 @@ import util.UserLoginException;
 import util.UserPasswordException;
 
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserControl {
-    private UserDao userDao;
-    private UserValidator userValidator;
-    private Map<String, User> users;
+    private final UserDao userDao;
+    private final UserValidator userValidator;
+    private final Map<String, User> users;
 
     public UserControl(UserDao userDao, UserValidator userValidator) {
         this.userDao = userDao;
@@ -25,8 +27,8 @@ public class UserControl {
         userDao.saveUsers(users);
     }
 
-    public Map<String, User> listAll() {
-        return users;
+    public List<User> listAll() {
+        return new ArrayList<User>(users.values());
     }
 
     public User getUser(String login) {
@@ -34,6 +36,8 @@ public class UserControl {
     }
 
     public User deleteUser(String login) {
-        return users.remove(login);
+        User user = users.remove(login);
+        userDao.saveUsers(users);
+        return user;
     }
 }

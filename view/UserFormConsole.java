@@ -1,7 +1,6 @@
 package view;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 import business.control.UserControl;
@@ -10,7 +9,7 @@ import util.UserLoginException;
 import util.UserPasswordException;
 
 public class UserFormConsole implements UserForm {
-    private UserControl controller;
+    private final UserControl controller;
     private Scanner scanner;
 
     public UserFormConsole(UserControl controller) {
@@ -20,6 +19,7 @@ public class UserFormConsole implements UserForm {
     @Override
     public void showUserForm() {
         this.scanner = new Scanner(System.in);
+        String input;
         int option;
 
         do {
@@ -33,8 +33,14 @@ public class UserFormConsole implements UserForm {
             System.out.println();
             
             System.out.print("Digite a opção desejada: ");
+            input = this.scanner.nextLine();
+
+            try {
+                option = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                option = 0;
+            }
             
-            option = Integer.parseInt(this.scanner.nextLine());
             callOption(option);
         } while (option != 5);
 
@@ -42,7 +48,7 @@ public class UserFormConsole implements UserForm {
     }
 
     public void userAdd() {
-        System.out.print("Login: ");
+        System.out.print("\nLogin (sem números, até 20 caracteres): ");
         String login = this.scanner.nextLine();
 
         System.out.print("Senha (numérica, entre 8 e 12 caracteres): ");
@@ -50,14 +56,15 @@ public class UserFormConsole implements UserForm {
 
         try {
             this.controller.addUser(login, password);
+            System.out.println("\nUsuário cadastrado com sucesso!\n");
+            
         } catch (UserLoginException e) {
-            System.out.println("Login inválido");
+            System.out.println("\n**Login inválido**");
         } catch (UserPasswordException e) {
-            System.out.println("Senha inválida");
+            System.out.println("\n**Senha inválida**");
         }
 
-        System.out.println("\nUsuário cadastrado com sucesso!\n");
-        System.out.print("Pressione qualquer tecla para continuar! ");
+        System.out.print("\nPressione enter para retornar ao menu principal! ");
         this.scanner.nextLine();
     }
 
@@ -65,36 +72,41 @@ public class UserFormConsole implements UserForm {
         List<User> users = controller.listAll();
 
         System.out.println();
-        for (Map.Entry<String, User> entry : users.entrySet()) {
-            System.out.println(entry.getKey());
+        for (User user : users) {
+            System.out.println(user.getLogin());
         }
 
-        System.out.println("\nPressione qualquer tecla para continuar!");
+        System.out.print("\nPressione enter para continuar!");
         this.scanner.nextLine();
     }
 
     public void getUser() {
-        System.out.print("Login: ");
+        System.out.print("\nLogin: ");
         User user = controller.getUser(this.scanner.nextLine());
 
         if (user != null) {
-            System.out.println("Usuário encontrado.");
-            return;
+            System.out.println("\nUsuário encontrado!\n");
+            System.out.println("-> " + user.getLogin());
+        } else {
+            System.out.println("\nNão há nenhum usuário no sistema com este login.");
         }
 
-        System.out.println("Não há nenhum usuário no sistema com este login.");
+        System.out.print("\nPressione enter para continuar!");
+        this.scanner.nextLine();
     }
 
     public void deleteUser() {
-        System.out.print("Login: ");
+        System.out.print("\nLogin: ");
         User user = controller.deleteUser(this.scanner.nextLine());
 
         if (user != null) {
-            System.out.println("Usuário deletado com sucesso.");
-            return;
+            System.out.println("\nUsuário " + user.getLogin() + " deletado com sucesso.");
+        } else {
+            System.out.println("\nNão há nenhum usuário cadastrado com este login no sistema.");
         }
 
-        System.out.println("Não foi possível deletar o usuário.");
+        System.out.print("\nPressione enter para continuar!");
+        this.scanner.nextLine();
     }
 
     public void callOption(int opt) {
@@ -113,6 +125,15 @@ public class UserFormConsole implements UserForm {
 
             case 4:
                 deleteUser();
+                break;
+            
+            case 5:
+                break;
+            
+            default:
+                System.out.println("\nOpção inválida");
+                System.out.print("Pressione enter para continuar!");
+                this.scanner.nextLine();
                 break;
         }
     }
