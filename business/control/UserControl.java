@@ -22,6 +22,9 @@ public class UserControl {
     }
 
     public void addUser(String login, String password) throws UserLoginException, UserPasswordException, InfraException {
+        if(users.containsKey(login))
+            throw new UserLoginException("Login já cadastrado!");
+
         User user = new User(login, password);
         this.userValidator.validateUser(user);
         users.put(login, user);
