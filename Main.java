@@ -14,22 +14,10 @@ public class Main {
         try {
             controller = new UserControl(userDao, userValidator);
         } catch(InfraException e) {
-            System.out.println(e);
+            System.out.println("Houve um erro ao iniciar a aplicação.");
         }
         UserForm userForm = new UserFormConsole(controller);
 
         userForm.showUserForm();
-
-        // Persistency tests
-        // try {
-        //     controller.addUser("testdois@test.com", "test3123456");
-
-        //     for (String keys : controller.users.keySet()) {
-        //         System.out.println(keys);
-        //     }
-        // } catch(Exception e) {
-        //     e.printStackTrace();
-        //     System.out.println(e.getLocalizedMessage());
-        // }
     }
 }

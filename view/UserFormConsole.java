@@ -48,30 +48,29 @@ public class UserFormConsole implements UserForm {
         this.scanner.close();
     }
 
-    public void userAdd() {
-        System.out.print("\nLogin (sem números, até 20 caracteres): ");
-        String login = this.scanner.nextLine();
+    private void addUser() {
+        boolean added = false;
+        do {
+            System.out.print("\nLogin (sem números, até 20 caracteres): ");
+            String login = this.scanner.nextLine();
 
-        System.out.print("Senha (numérica, entre 8 e 12 caracteres): ");
-        String password = this.scanner.nextLine();
+            System.out.print("Senha (numérica, entre 8 e 12 caracteres): ");
+            String password = this.scanner.nextLine();
 
-        try {
-            this.controller.addUser(login, password);
-            System.out.println("\nUsuário cadastrado com sucesso!\n");
-            
-        } catch (UserLoginException e) {
-            System.out.println(e.getMessage());
-        } catch (UserPasswordException e) {
-            System.out.println(e.getMessage());
-        } catch (InfraException e) {
-            System.out.println(e.getMessage());
-        }
+            try {
+                this.controller.addUser(login, password);
+                System.out.println("\nUsuário cadastrado com sucesso!\n");
+                added = true;
+            } catch (UserLoginException | UserPasswordException | InfraException e) {
+                System.out.println(e.getMessage());
+            }
 
-        System.out.print("\nPressione enter para retornar ao menu principal! ");
-        this.scanner.nextLine();
+            System.out.print("\nPressione enter para continuar! ");
+            this.scanner.nextLine();
+        } while(!added);
     }
 
-    public void listUsers() {
+    private void listUsers() {
         List<User> users = controller.listAll();
 
         System.out.println();
@@ -83,7 +82,7 @@ public class UserFormConsole implements UserForm {
         this.scanner.nextLine();
     }
 
-    public void getUser() {
+    private void getUser() {
         System.out.print("\nLogin: ");
         User user = controller.getUser(this.scanner.nextLine());
 
@@ -98,7 +97,7 @@ public class UserFormConsole implements UserForm {
         this.scanner.nextLine();
     }
 
-    public void deleteUser() {
+    private void deleteUser() {
         System.out.print("\nLogin: ");
 
         User user = null;
@@ -118,10 +117,10 @@ public class UserFormConsole implements UserForm {
         this.scanner.nextLine();
     }
 
-    public void callOption(int opt) {
+    private void callOption(int opt) {
         switch (opt) {
             case 1:
-                userAdd();
+                addUser();
                 break;
 
             case 2:

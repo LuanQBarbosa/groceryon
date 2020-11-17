@@ -27,14 +27,14 @@ public class UserFileDao implements UserDao {
         try {
             File saveFile = getFile();
             if(saveFile.length() == 0) // se o arquivo for vazio
-                return new TreeMap<String, User>();
+                return new TreeMap<>();
             FileInputStream fileIn = new FileInputStream(saveFile);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             users = (Map<String, User>) in.readObject();
             in.close();
             fileIn.close();
         } catch (IOException | ClassNotFoundException e) {
-            throw new InfraException("\n**User's file error**");
+            throw new InfraException("**User's file error**");
         }
 
         return users;
@@ -49,7 +49,7 @@ public class UserFileDao implements UserDao {
             out.close();
             fileOut.close();
         } catch (IOException i) {
-            throw new InfraException("\n**User's file error**");
+            throw new InfraException("**User's file error**");
 
         }
     }
