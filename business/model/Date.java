@@ -3,9 +3,8 @@ package business.model;
 import util.IncorrectDateFormatException;
 
 import java.io.Serializable;
-import java.util.IllegalFormatException;
 
-public class Date implements Serializable {
+public class Date implements Serializable, Comparable<Date> {
     private static final long serialVersionUID = 1L;
 
     private int year;
@@ -60,5 +59,11 @@ public class Date implements Serializable {
 
     public void setDay(int day) {
         this.day = day;
+    }
+
+    @Override
+    public int compareTo(Date o) {
+        return String.format("%04d/%02d/%02d", this.year, this.month, this.day)
+                .compareTo(String.format("%04d/%02d/%02d", o.year, o.month, o.day));
     }
 }
