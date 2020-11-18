@@ -1,8 +1,13 @@
 package business.model;
 
+import util.IncorrectDateFormatException;
+
+import java.io.Serializable;
 import java.util.IllegalFormatException;
 
-public class Date {
+public class Date implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int year;
     private int month;
     private int day;
@@ -17,9 +22,9 @@ public class Date {
     }
 
     // from dd/mm/yyyy
-    static public Date fromString(String s) throws IllegalFormatException {
+    static public Date fromString(String s) throws IncorrectDateFormatException {
         if (!s.matches("^(?:(?:31([/])(?:0?[13578]|1[02]))\\1|(?:(?:29|30)([/])(?:0?[13-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29([/.])0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])([/])(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$"))
-            throw new IllegalArgumentException("A data não está no formato esperado");
+            throw new IncorrectDateFormatException("A data não está no formato esperado");
 
         String[] x = s.split("/");
         int day = Integer.parseInt(x[0]);

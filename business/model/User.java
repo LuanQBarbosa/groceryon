@@ -9,13 +9,15 @@ public class User implements Serializable, Comparable<User> {
 	public User() {
     }
 
-    public User(String login, String password) {
+    public User(String login, String password, Date birthday) {
         this.login = login;
         this.password = password;
+        this.birthday = birthday;
     }
 
     private String login;
     private String password;
+    private Date birthday;
 
     public String getLogin() {
         return login;
@@ -33,6 +35,13 @@ public class User implements Serializable, Comparable<User> {
         this.password = password;
     }
 
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 
     @Override
     public int compareTo(User o) {

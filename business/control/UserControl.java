@@ -1,7 +1,9 @@
 package business.control;
 
+import business.model.Date;
 import business.model.User;
 import infra.UserDao;
+import util.IncorrectDateFormatException;
 import util.InfraException;
 import util.UserLoginException;
 import util.UserPasswordException;
@@ -21,11 +23,12 @@ public class UserControl {
         users = userDao.loadUsers();
     }
 
-    public void addUser(String login, String password) throws UserLoginException, UserPasswordException, InfraException {
+    public void addUser(String login, String password, String birthday) throws UserLoginException, UserPasswordException, InfraException, IncorrectDateFormatException {
         if(users.containsKey(login))
             throw new UserLoginException("Login já cadastrado!");
 
-        User user = new User(login, password);
+        Date d = Date.fromString(birthday);
+        User user = new User(login, password, d);
         this.userValidator.validateUser(user);
         users.put(login, user);
         userDao.saveUsers(users);

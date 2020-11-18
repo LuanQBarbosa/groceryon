@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import business.control.UserControl;
 import business.model.User;
+import util.IncorrectDateFormatException;
 import util.InfraException;
 import util.UserLoginException;
 import util.UserPasswordException;
@@ -54,14 +55,17 @@ public class UserFormConsole implements UserForm {
             System.out.print("\nLogin (sem números, até 20 caracteres): ");
             String login = this.scanner.nextLine();
 
-            System.out.print("Senha (numérica, entre 8 e 12 caracteres): ");
+            System.out.print("Senha (entre 8 e 12 caracteres): ");
             String password = this.scanner.nextLine();
 
+            System.out.print("Data Nascimento (dd/mm/yyyy): ");
+            String birthday = this.scanner.nextLine();
+
             try {
-                this.controller.addUser(login, password);
+                this.controller.addUser(login, password, birthday);
                 System.out.println("\nUsuário cadastrado com sucesso!\n");
                 added = true;
-            } catch (UserLoginException | UserPasswordException | InfraException e) {
+            } catch (UserLoginException | UserPasswordException | InfraException | IncorrectDateFormatException e) {
                 System.out.println(e.getMessage());
             }
 

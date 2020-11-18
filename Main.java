@@ -1,5 +1,6 @@
 import business.control.UserControl;
 import business.control.UserValidator;
+import business.model.Date;
 import infra.UserDao;
 import infra.UserFileDao;
 import util.InfraException;
@@ -15,6 +16,7 @@ public class Main {
             controller = new UserControl(userDao, userValidator);
         } catch(InfraException e) {
             System.out.println("Houve um erro ao iniciar a aplicação.");
+            System.exit(1);
         }
         UserForm userForm = new UserFormConsole(controller);
 
