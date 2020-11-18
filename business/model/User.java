@@ -2,7 +2,7 @@ package business.model;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class User implements Serializable, Comparable<User> {
     
 	private static final long serialVersionUID = 1L;
 
@@ -31,5 +31,11 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    @Override
+    public int compareTo(User o) {
+        return this.login.compareTo(o.login);
     }
 }
