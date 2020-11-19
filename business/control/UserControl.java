@@ -2,6 +2,7 @@ package business.control;
 
 import business.model.Date;
 import business.model.User;
+import business.model.UserBirthdayComparator;
 import infra.UserDao;
 import util.IncorrectDateFormatException;
 import util.InfraException;
@@ -9,6 +10,7 @@ import util.UserLoginException;
 import util.UserPasswordException;
 
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,5 +50,15 @@ public class UserControl {
             userDao.saveUsers(users);
         }
         return user;
+    }
+
+    public TreeSet<User> listUsersByBirthday() {
+        TreeSet<User> users = new TreeSet<>(new UserBirthdayComparator());
+
+        for (User user : listAll()) {
+            users.add(user);
+        }
+
+        return users;
     }
 }
