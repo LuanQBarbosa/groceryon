@@ -32,7 +32,8 @@ public class UserValidator {
         if(!password.matches(".*[a-zA-Z]+.*"))
             throw new UserPasswordException("Senha deve conter ao menos 1 letra!");
 
-        if(!password.matches("(\\D*\\d){2,}"))
+        // if(!password.matches("(\\D*\\d){2,}"))
+        if (!password.matches(".*\\d+.*\\d+.*"))
             throw new UserPasswordException("Senha deve conter ao menos 2 numeros!");
     }
 }
