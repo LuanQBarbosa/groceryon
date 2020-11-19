@@ -1,7 +1,6 @@
 package business.model;
 
 import java.util.Comparator;
-import business.model.User;
 
 public class UserBirthdayComparator implements Comparator<User> {
 
