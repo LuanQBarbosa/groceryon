@@ -2,6 +2,7 @@ package view;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 import business.control.UserControl;
 import business.model.User;
@@ -31,7 +32,8 @@ public class UserFormConsole implements UserForm {
             System.out.println("2 - Listar usuários");
             System.out.println("3 - Buscar usuário");
             System.out.println("4 - Deletar usuário");
-            System.out.println("5 - Encerrar operações");
+            System.out.println("5 - Listar usuário por data de nascimento");
+            System.out.println("6 - Encerrar operações");
             System.out.println();
             
             System.out.print("Digite a opção desejada: ");
@@ -44,7 +46,7 @@ public class UserFormConsole implements UserForm {
             }
             
             callOption(option);
-        } while (option != 5);
+        } while (option != 6);
 
         this.scanner.close();
     }
@@ -121,6 +123,18 @@ public class UserFormConsole implements UserForm {
         this.scanner.nextLine();
     }
 
+    private void listUserBirthday() {
+        TreeSet<User> t = this.controller.listUsersByBirthday();
+
+        System.out.println();
+        for (User u : t) {
+            System.out.println(u.getLogin() + " " + u.getBirthday());
+        }
+
+        System.out.print("\nPressione enter para continuar!");
+        this.scanner.nextLine();
+    }
+
     private void callOption(int opt) {
         switch (opt) {
             case 1:
@@ -140,8 +154,12 @@ public class UserFormConsole implements UserForm {
                 break;
             
             case 5:
+                listUserBirthday();
                 break;
             
+            case 6:
+                break;
+                
             default:
                 System.out.println("\nOpção inválida");
                 System.out.print("Pressione enter para continuar!");
