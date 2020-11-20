@@ -9,10 +9,7 @@ import util.InfraException;
 import util.UserLoginException;
 import util.UserPasswordException;
 
-import java.util.Map;
-import java.util.TreeSet;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class UserControl {
     private final UserDao userDao;
@@ -52,13 +49,13 @@ public class UserControl {
         return user;
     }
 
-    public TreeSet<User> listUsersByBirthday() {
-        TreeSet<User> users = new TreeSet<>(new UserBirthdayComparator());
+    public SortedSet<User> listUsersByLogin() {
+        return new TreeSet<>(users.values());
+    }
 
-        for (User user : listAll()) {
-            users.add(user);
-        }
-
-        return users;
+    public SortedSet<User> listUsersByBirthday() {
+        SortedSet<User> usersSet = new TreeSet<>(new UserBirthdayComparator());
+        usersSet.addAll(users.values());
+        return usersSet;
     }
 }

@@ -2,6 +2,7 @@ package view;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import business.control.UserControl;
@@ -32,8 +33,7 @@ public class UserFormConsole implements UserForm {
             System.out.println("2 - Listar usuários");
             System.out.println("3 - Buscar usuário");
             System.out.println("4 - Deletar usuário");
-            System.out.println("5 - Listar usuário por data de nascimento");
-            System.out.println("6 - Encerrar operações");
+            System.out.println("5 - Encerrar operações");
             System.out.println();
             
             System.out.print("Digite a opção desejada: ");
@@ -46,7 +46,7 @@ public class UserFormConsole implements UserForm {
             }
             
             callOption(option);
-        } while (option != 6);
+        } while (option != 5);
 
         this.scanner.close();
     }
@@ -77,11 +77,32 @@ public class UserFormConsole implements UserForm {
     }
 
     private void listUsers() {
-        List<User> users = controller.listAll();
+        int option = 0;
+        do {
+            System.out.println("1 - Ordernado por login - crescente");
+            System.out.println("2 - Ordenado por data de nascimento - decrescente");
+            System.out.println();
+
+            System.out.print("Digite a opção desejada: ");
+            String input = this.scanner.nextLine();
+
+            try {
+                option = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Opção invalida!");
+            }
+        } while(option == 0);
+
+        SortedSet<User> users = null;
+        switch (option) {
+            case 1 -> users = controller.listUsersByLogin();
+            case 2 -> users = controller.listUsersByBirthday();
+            default -> throw new IllegalStateException();
+        }
 
         System.out.println();
-        for (User user : users) {
-            System.out.println(user.getLogin());
+        for (User u : users) {
+            System.out.println(u.getLogin() + " " + u.getBirthday());
         }
 
         System.out.print("\nPressione enter para continuar!");
@@ -123,18 +144,6 @@ public class UserFormConsole implements UserForm {
         this.scanner.nextLine();
     }
 
-    private void listUserBirthday() {
-        TreeSet<User> t = this.controller.listUsersByBirthday();
-
-        System.out.println();
-        for (User u : t) {
-            System.out.println(u.getLogin() + " " + u.getBirthday());
-        }
-
-        System.out.print("\nPressione enter para continuar!");
-        this.scanner.nextLine();
-    }
-
     private void callOption(int opt) {
         switch (opt) {
             case 1:
@@ -154,10 +163,6 @@ public class UserFormConsole implements UserForm {
                 break;
             
             case 5:
-                listUserBirthday();
-                break;
-            
-            case 6:
                 break;
                 
             default:
