@@ -5,23 +5,26 @@ import java.util.Scanner;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import business.Facade;
+import business.control.ProductControl;
 import business.control.UserControl;
 import business.model.User;
 import util.IncorrectDateFormatException;
 import util.InfraException;
+import util.InvalidOptionException;
 import util.UserLoginException;
 import util.UserPasswordException;
 
-public class UserFormConsole implements UserForm {
-    private final UserControl controller;
+public class FormConsole implements Form {
+    private final Facade facade;
     private Scanner scanner;
 
-    public UserFormConsole(UserControl controller) {
-        this.controller = controller;
+    public FormConsole(Facade facade) {
+        this.facade = facade;
     }
 
     @Override
-    public void showUserForm() {
+    public void showForm() throws InvalidOptionException, UserLoginException {
         this.scanner = new Scanner(System.in);
         String input;
         int option;
@@ -31,7 +34,7 @@ public class UserFormConsole implements UserForm {
             System.out.flush();  
             System.out.println("1 - Adicionar usuário");
             System.out.println("2 - Listar usuários");
-            System.out.println("3 - Buscar usuário");
+            System.out.println("3 - Logar usuário");
             System.out.println("4 - Deletar usuário");
             System.out.println("5 - Encerrar operações");
             System.out.println();
@@ -64,7 +67,7 @@ public class UserFormConsole implements UserForm {
             String birthday = this.scanner.nextLine();
 
             try {
-                this.controller.addUser(login, password, birthday);
+                this.facade.userSignUp(login, password, birthday);
                 System.out.println("\nUsuário cadastrado com sucesso!\n");
                 added = true;
             } catch (UserLoginException | UserPasswordException | InfraException | IncorrectDateFormatException e) {
@@ -76,7 +79,7 @@ public class UserFormConsole implements UserForm {
         } while(!added);
     }
 
-    private void listUsers() {
+    private void listUsers() throws InvalidOptionException {
         int option = 0;
         do {
             System.out.println("1 - Ordernado por login - crescente");
@@ -95,9 +98,9 @@ public class UserFormConsole implements UserForm {
 
         SortedSet<User> users = null;
         switch (option) {
-            case 1 -> users = controller.listUsersByLogin();
-            case 2 -> users = controller.listUsersByBirthday();
-            default -> throw new IllegalStateException();
+            case 1: users = facade.listUsersBy("login"); break;
+            case 2: users = facade.listUsersBy("birthday"); break;
+            default: throw new IllegalStateException();
         }
 
         System.out.println();
@@ -109,9 +112,12 @@ public class UserFormConsole implements UserForm {
         this.scanner.nextLine();
     }
 
-    private void getUser() {
+    private void userLogin() throws UserLoginException {
         System.out.print("\nLogin: ");
-        User user = controller.getUser(this.scanner.nextLine());
+        String login = this.scanner.nextLine();
+        System.out.print("\nPassword: ");
+        String password = this.scanner.nextLine();
+        User user = facade.userLogin(login, password);
 
         if (user != null) {
             System.out.println("\nUsuário encontrado!\n");
@@ -129,7 +135,7 @@ public class UserFormConsole implements UserForm {
 
         User user = null;
         try {
-            user = controller.deleteUser(this.scanner.nextLine());
+            user = facade.deleteUser(this.scanner.nextLine());
         } catch (InfraException e) {
             System.out.println(e.getMessage());
         }
@@ -144,7 +150,7 @@ public class UserFormConsole implements UserForm {
         this.scanner.nextLine();
     }
 
-    private void callOption(int opt) {
+    private void callOption(int opt) throws InvalidOptionException, UserLoginException {
         switch (opt) {
             case 1:
                 addUser();
@@ -155,7 +161,7 @@ public class UserFormConsole implements UserForm {
                 break;
 
             case 3:
-                getUser();
+                userLogin();
                 break;
 
             case 4:

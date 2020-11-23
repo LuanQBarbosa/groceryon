@@ -22,12 +22,11 @@ public class UserControl {
         users = userDao.loadUsers();
     }
 
-    public void addUser(String login, String password, String birthday) throws UserLoginException, UserPasswordException, InfraException, IncorrectDateFormatException {
+    public void addUser(String login, String password, Date birthday) throws UserLoginException, UserPasswordException, InfraException, IncorrectDateFormatException {
         if(users.containsKey(login))
             throw new UserLoginException("Login já cadastrado!");
 
-        Date d = Date.fromString(birthday);
-        User user = new User(login, password, d);
+        User user = new User(login, password, birthday);
         this.userValidator.validateUser(user);
         users.put(login, user);
         userDao.saveUsers(users);
