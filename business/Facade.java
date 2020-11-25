@@ -1,7 +1,6 @@
 package business;
 
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 import business.control.ProductControl;
 import business.control.UserControl;

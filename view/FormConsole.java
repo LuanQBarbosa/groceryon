@@ -1,13 +1,9 @@
 package view;
 
-import java.util.List;
 import java.util.Scanner;
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 import business.Facade;
-import business.control.ProductControl;
-import business.control.UserControl;
 import business.model.User;
 import util.IncorrectDateFormatException;
 import util.InfraException;
@@ -31,14 +27,14 @@ public class FormConsole implements Form {
 
         do {
             System.out.print("\033[H\033[2J");
-            System.out.flush();  
+            System.out.flush();
             System.out.println("1 - Adicionar usuário");
             System.out.println("2 - Listar usuários");
             System.out.println("3 - Logar usuário");
             System.out.println("4 - Deletar usuário");
             System.out.println("5 - Encerrar operações");
             System.out.println();
-            
+
             System.out.print("Digite a opção desejada: ");
             input = this.scanner.nextLine();
 
@@ -47,7 +43,7 @@ public class FormConsole implements Form {
             } catch (NumberFormatException e) {
                 option = 0;
             }
-            
+
             callOption(option);
         } while (option != 5);
 
@@ -167,10 +163,10 @@ public class FormConsole implements Form {
             case 4:
                 deleteUser();
                 break;
-            
+
             case 5:
                 break;
-                
+
             default:
                 System.out.println("\nOpção inválida");
                 System.out.print("Pressione enter para continuar!");

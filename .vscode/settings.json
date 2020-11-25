@@ -1,0 +1,13 @@
+{
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\emanuel\\Desktop\\Tulio\\itextpdf-5.4.0.jar",
+        "dependencies/itextpdf-5.4.0.jar"
+    ]
+}
