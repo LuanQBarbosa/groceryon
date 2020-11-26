@@ -29,7 +29,7 @@ public class ProductControl {
         return new ArrayList<>(products.values());
     }
 
-    public Product getUser(String name) {
+    public Product getProduct(String name) {
         return products.get(name);
     }
 

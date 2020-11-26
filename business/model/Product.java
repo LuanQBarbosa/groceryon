@@ -9,11 +9,13 @@ public class Product implements Serializable {
   private String name;
   private String description;
   private String imgLink;
+  private int quantity;
 
   public Product(String name, String description, String imgLink) {
     this.name = name;
     this.description = description;
     this.imgLink = imgLink;
+    this.quantity = 0;
   }
 
   public Product() {}
@@ -40,5 +42,13 @@ public class Product implements Serializable {
 
   public void setImgLink(String imgLink) {
     this.imgLink = imgLink;
+  }
+
+  public int getQuantity() {
+    return quantity;
+  }
+
+  public void setQuantity(int quantity) {
+    this.quantity = quantity;
   }
 }

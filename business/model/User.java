@@ -13,11 +13,22 @@ public class User implements Serializable, Comparable<User> {
         this.login = login;
         this.password = password;
         this.birthday = birthday;
+        shoppingList = null;
     }
 
     private String login;
     private String password;
     private Date birthday;
+    // Association relation between User and ShoppingList
+    private ShoppingList shoppingList;
+
+    public ShoppingList getShoppingList() {
+        return shoppingList;
+    }
+
+    public void setShoppingList(ShoppingList shoppingList) {
+        this.shoppingList = shoppingList;
+    }
 
     public String getLogin() {
         return login;

@@ -3,9 +3,11 @@ package business;
 import java.util.SortedSet;
 
 import business.control.ProductControl;
+import business.control.ShoppingListControl;
 import business.control.UserControl;
 import business.control.UserValidator;
 import business.model.Date;
+import business.model.Product;
 import business.model.User;
 import infra.ProductDao;
 import infra.ProductFileDao;
@@ -14,6 +16,7 @@ import infra.UserFileDao;
 import util.IncorrectDateFormatException;
 import util.InfraException;
 import util.InvalidOptionException;
+import util.ProductNameException;
 import util.UserLoginException;
 import util.UserPasswordException;
 
@@ -21,6 +24,7 @@ import util.UserPasswordException;
 public class Facade {
     private UserControl userController;
     private ProductControl productController;
+    private ShoppingListControl shoppingListController;
     private static Facade instance = null;
 
     private Facade() {
@@ -33,6 +37,7 @@ public class Facade {
         try {
             userController = new UserControl(userDao, userValidator);
             productController = new ProductControl(productDao);
+            shoppingListController = new ShoppingListControl();
         } catch(InfraException e) {
             System.out.println("Houve um erro ao iniciar a aplicação.");
             System.exit(1);
@@ -66,6 +71,16 @@ public class Facade {
         }
 
         return user;
+    }
+
+    public void createNewProduct(String name, String description, String imgLink) throws ProductNameException, InfraException {
+        productController.addProduct(name, description, imgLink);
+    }
+
+    public void updateExistingProduct(String name, String description, String imgLink) {
+        Product product = productController.getProduct(name);
+        product.setDescription(description);
+        product.setImgLink(imgLink);
     }
 
     public SortedSet<User> listUsersBy(String option) throws InvalidOptionException {
