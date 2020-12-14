@@ -1,6 +1,6 @@
 package business.model.productBuilder;
 
-public class FrutaBuilder extends ProdcutBuilder {
+public class FrutaBuilder extends ProductBuilder {
 
     @Override
     public void buildName() {

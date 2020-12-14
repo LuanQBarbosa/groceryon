@@ -1,9 +1,9 @@
 package business.model.productBuilder;
 
 public class Director {
-    protected ProdcutBuilder prodBuilder;
+    protected ProductBuilder prodBuilder;
 
-    public Director(ProdcutBuilder prodBuilder){
+    public Director(ProductBuilder prodBuilder){
         this.prodBuilder = prodBuilder;
     }
 
